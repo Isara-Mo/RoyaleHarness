@@ -1,11 +1,11 @@
 {
   "version": "0.1.0-preview",
   "date": "2026-09-13",
-  "status": "offline_verified_pending_independent_install_and_live_battle",
+  "status": "fresh_instance_install_and_live_battle_verified_preview",
   "python_tests": {
-    "passed": 224,
+    "passed": 234,
     "failed": 0,
-    "command": "python test_pipeline.py --model",
+    "command": "python -m unittest discover -s tests -q",
     "installer_device_io": "FakeAdb only; no real device calls"
   },
   "model_smoke": {
@@ -26,9 +26,37 @@
   },
   "game_sha256": "110aa2b5cac391c498645e072b0d88729428c2c2845e7e2737ca8ee979059783",
   "limitations": [
-    "No fresh dependency download/install performed",
-    "No game installation, restart, matchmaking or real touch input performed",
-    "Independent machine/fresh emulator full battle still required",
+    "A separate physical computer has not been tested",
+    "Live hero ability activation was not triggered in the new-instance validation",
+    "Reconnect recovery verified by regression tests; second live match had no disconnect",
     "No claim of win-rate improvement or full card/form support"
-  ]
+  ],
+  "new_instance_validation": {
+    "date": "2026-09-13",
+    "fresh_python_environment": "installed via setup.ps1 using published dependencies",
+    "probe_install": "clean ARM64 installation; original SDK preserved; game restarted; idle telemetry received",
+    "python_baseline_tests": 224,
+    "additional_git_portability_tests": 2,
+    "cuda_model_smoke": "6 decisions across both seats",
+    "account_and_calibration": "native identity, hand and visual ground/ability locations verified",
+    "full_ai_battle": "second attempt completed normally; native terminal recognized; --once exited",
+    "updated_full_suite": 234,
+    "reconnect_regressions": "7 lifecycle tests passed; ADB UTF-8 subprocess regression passed",
+    "live_result": {
+      "crowns": [
+        3,
+        0
+      ],
+      "result": "win",
+      "terminal_tick": 2457,
+      "decisions": 474,
+      "touch_actions_completed": 21,
+      "hand_ack": 20,
+      "spawn_observed": 20,
+      "unresolved_at_terminal": 1,
+      "skeleton_evolution_ack": 1,
+      "ability_ack": 0,
+      "telemetry_pauses": 0
+    }
+  }
 }

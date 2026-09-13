@@ -7,7 +7,7 @@ import sys
 import tempfile
 import unittest
 
-from tools.package_release import reviewed_files
+from tools.package_release import reviewed_files, release_bytes
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -51,3 +51,21 @@ class ReleasePortabilityTests(unittest.TestCase):
                     (root / 'SHA256SUMS.json').write_text(json.dumps({name: '0' * 64}))
                     with self.assertRaises(ValueError):
                         reviewed_files(root)
+
+    def test_git_line_endings_do_not_change_reviewed_text(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / 'README.md').write_bytes(b'one\r\ntwo\r\n')
+            (root / 'start.bat').write_bytes(b'@echo off\nexit /b 0\n')
+            expected = {'README.md': b'one\ntwo\n', 'start.bat': b'@echo off\r\nexit /b 0\r\n'}
+            (root / 'SHA256SUMS.json').write_text(json.dumps({n: hashlib.sha256(b).hexdigest() for n,b in expected.items()}))
+            self.assertEqual({n: release_bytes(p) for n,p in reviewed_files(root)}, expected)
+            (root / 'README.md').write_bytes(b'changed\r\n')
+            with self.assertRaisesRegex(ValueError, 'Reviewed source changed'):
+                reviewed_files(root)
+
+    def test_binary_line_ending_bytes_are_never_normalized(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'probe.so'
+            path.write_bytes(b'\x7fELF\r\n\0')
+            self.assertEqual(release_bytes(path), b'\x7fELF\r\n\0')

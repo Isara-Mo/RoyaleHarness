@@ -141,6 +141,11 @@ class ProbeClient:
         state = self.get_battle_state()
         if state is None:
             return None
+        # A verified terminal snapshot is useful even when the final tick is
+        # frozen or is the first snapshot after reconnect. It cannot authorize input.
+        if state.native_finalized:
+            self.last_status = 'finalized'
+            return state
         now = time.perf_counter()
         if state.identity != self._identity or self._last_tick is None or state.tick < self._last_tick:
             self._identity = state.identity
@@ -161,4 +166,5 @@ class ProbeClient:
         return state
 
     def is_in_battle(self):
-        return self.get_live_battle_state() is not None
+        state = self.get_live_battle_state()
+        return state is not None and not state.native_finalized

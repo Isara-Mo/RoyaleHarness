@@ -4,6 +4,7 @@ import io
 import json
 from pathlib import Path
 import re
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -134,6 +135,15 @@ class ReleaseInstallTests(unittest.TestCase):
         path.write_bytes(self.sdk[:64])
         with self.assertRaisesRegex(ValueError, 'forwarding symbols'):
             installer.verify_sdk(path)
+
+    def test_adb_utf8_output_and_invalid_log_bytes_are_readable(self):
+        run = installer.subprocess.run
+        def child_process(argv, **kwargs):
+            return run([sys.executable, '-c',
+                "import sys;sys.stdout.buffer.write(bytes.fromhex('e8bf9ee68ea5e68890e58a9f20ff0a'))"], **kwargs)
+        with patch.object(installer.config, 'ADB_PATH', Path(sys.executable)), \
+             patch.object(installer.subprocess, 'run', side_effect=child_process):
+            self.assertEqual(installer.Adb().call('logcat'), '连接成功 \ufffd')
 
 
 if __name__ == '__main__':

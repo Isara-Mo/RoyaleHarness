@@ -1,0 +1,4 @@
+interface:
+  display_name: "Configure RoyaleHarness"
+  short_description: "Set up MuMu, local settings, and live AI validation"
+  default_prompt: "Use $configure-royaleharness to configure my MuMu instance and validate the RoyaleHarness gameplay loop."

@@ -42,7 +42,7 @@ class Adb:
 
     def call(self, *args):
         result = subprocess.run([str(config.ADB_PATH), '-s', config.ADB_SERIAL, *args],
-                                capture_output=True, text=True, timeout=30)
+                                capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=30)
         if result.returncode:
             raise RuntimeError(f'ADB failed: {result.stderr.strip() or result.stdout.strip()}')
         return result.stdout.strip()

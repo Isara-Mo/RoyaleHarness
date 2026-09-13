@@ -115,8 +115,6 @@ class CustomCardDeployAgent:
                         # Retain measured towers and recurrent history so a
                         # midgame resume does not require six surviving towers.
                         suspended = True
-                        if once:
-                            break
                     message = self.probe.last_error or self.probe.last_status
                     if message != last_message:
                         self.log('waiting', status=message)
@@ -124,6 +122,11 @@ class CustomCardDeployAgent:
                     time.sleep(.05)
                     continue
                 last_live = now
+                if once and identity is not None and (state.identity != identity or state.tick < last_seen_tick):
+                    self.log('battle_replaced', last_tick=last_seen_tick, observed_tick=state.tick,
+                             reason='new_episode_after_single_battle_started')
+                    self.executor.end_battle()
+                    break
                 if suspended:
                     self.log('telemetry_resumed', tick=state.tick,
                              same_episode=state.identity == identity and state.tick >= last_seen_tick)
@@ -132,6 +135,13 @@ class CustomCardDeployAgent:
                     time.sleep(.05)
                     continue
                 if state.native_finalized:
+                    if identity is None:
+                        # Launching at the previous result screen must still
+                        # wait for the next live battle, including --once.
+                        ended = (state.identity, state.tick)
+                        self.log('waiting', status='finished_battle_waiting_for_next')
+                        time.sleep(.05)
+                        continue
                     winner = state.native_winner
                     self.log('battle_terminal', tick=state.tick, crowns=state.crowns, owner=state.local_owner,
                              evidence='native_world_finalized', winner=winner,
@@ -262,7 +272,7 @@ def parse_args(argv=None):
     parser.add_argument('--experimental-origins', action='store_true',
         help='enable unvalidated full effect/projectile origin chains; requires --observation-profile extended')
     parser.add_argument('--seconds', type=float, default=0)
-    parser.add_argument('--once', action='store_true', help='exit when this battle ends or becomes stale')
+    parser.add_argument('--once', action='store_true', help='run one battle; pause on telemetry loss and resume the same battle')
     parser.add_argument('--start-battle', action='store_true', help='tap battle once after loading; lobby must be visible')
     parser.add_argument('--log', type=Path)
     args = parser.parse_args(argv)
