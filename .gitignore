@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+settings.local.json
+ability_calibration.local.json
+local/
+logs/
+diagnostics/
+backups/
+*.apk
+*.pt
+probe/*.so
+probe/artifacts/candidates/
+probe/artifacts/validation-*/

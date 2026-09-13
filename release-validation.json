@@ -1,0 +1,34 @@
+{
+  "version": "0.1.0-preview",
+  "date": "2026-09-13",
+  "status": "offline_verified_pending_independent_install_and_live_battle",
+  "python_tests": {
+    "passed": 224,
+    "failed": 0,
+    "command": "python test_pipeline.py --model",
+    "installer_device_io": "FakeAdb only; no real device calls"
+  },
+  "model_smoke": {
+    "hog26": "6 deterministic decisions, 2 seats, no errors",
+    "general": "catalog and checkpoint loaded successfully",
+    "device": "CUDA, RTX 5080",
+    "torch": "2.11.0+cu128"
+  },
+  "preflight": {
+    "upstream_catalog_torch_model": "pass",
+    "unset_adb_account": "correctly reported as failures in isolated validation settings"
+  },
+  "native": {
+    "offline_artifact_checks": 10,
+    "compiler": "NDK r27c / Windows",
+    "stable_rebuild_matches_shipped_binary": true,
+    "sha256": "9d1c8d79712c7116e27c324dd9bcbd85d6be07923e7c8b989c61bee57cd095b0"
+  },
+  "game_sha256": "110aa2b5cac391c498645e072b0d88729428c2c2845e7e2737ca8ee979059783",
+  "limitations": [
+    "No fresh dependency download/install performed",
+    "No game installation, restart, matchmaking or real touch input performed",
+    "Independent machine/fresh emulator full battle still required",
+    "No claim of win-rate improvement or full card/form support"
+  ]
+}

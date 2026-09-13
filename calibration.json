@@ -1,0 +1,8 @@
+{
+  "width": 1080,
+  "height": 1920,
+  "matrix": [[50.91, 0.0, 81.81], [0.0, -42.4, 1496.4], [0.0, 0.0, 1.0]],
+  "touch_bounds": [80, 190, 1000, 1440],
+  "coordinate_frame": "viewer_ground_tiles_x_right_y_away_from_player",
+  "evidence": "2026-09-08 MuMu 1080x1920. 16 stationary Cannon samples in live_first/live_second/live_final have matching target and observed native world coordinates (8 samples each seat). This validates sampled coarse centers, not every pixel, spell impact or arena skin."
+}

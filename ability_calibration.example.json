@@ -1,0 +1,8 @@
+{
+  "ability_id": "Musketeer_hero_Ability",
+  "controller_slot": 1,
+  "size": [1080, 1920],
+  "point": [974, 1450],
+  "verified": false,
+  "evidence": "Reference only. Confirm the button on your own single-hero HUD before setting verified=true."
+}

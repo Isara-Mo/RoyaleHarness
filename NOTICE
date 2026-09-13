@@ -1,0 +1,15 @@
+CR PlayCard Agent — live observation, inference and Android touch bridge.
+
+This release includes original bridge software and adaptations of FirstLight CR
+under Apache-2.0. The original FirstLight project and its model weights have not
+been changed by this release. See LICENSE, probe/FIRSTLIGHT_NOTICE.md and
+probe/UPSTREAM_NOTICE for upstream attribution and material boundaries.
+
+Release packaging modifies local configuration, launchers and probe installation;
+the default native probe is the previously validated stable build. Experimental
+source is retained for reproducibility but is not the default runtime profile.
+
+No APK, original game/SDK library, training replay, model weight or game resource
+is redistributed here. The original SDK required by the proxy is preserved from
+the user's own installation on that user's device. Product names identify
+compatibility; this project is not affiliated with Supercell, Null's or MuMu.
