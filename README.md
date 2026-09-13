@@ -11,7 +11,19 @@ RoyaleHarness 将 FirstLight 的 V4 策略模型接入 MuMu 中运行的 Null’
 当前版本：**`v0.1.0-preview`**。
 目前使用原生数据感知；视觉感知是后续方向。当前接入目标为 Null’s Royale，未适配官方客户端。
 
-[开始使用](#开始使用) · [配置指南](docs/SETUP.md) · [架构说明](docs/ARCHITECTURE.md) · [路线图](#路线图)
+[Agent 协助配置](#让-agent-协助配置) · [开始使用](#开始使用) · [配置指南](docs/SETUP.md) · [架构说明](docs/ARCHITECTURE.md) · [路线图](#路线图)
+
+## 让 agent 协助配置
+
+在支持仓库指令的编程助手中打开项目，可以这样提出任务：
+
+> 请阅读 AGENTS.md，帮我把 RoyaleHarness 配置到我指定的 MuMu 实例。
+> 按配置技能发现环境、填写本地设置并验证运行；需要我进入对战时告诉我。
+
+[AGENTS.md](AGENTS.md) 是工作入口，
+[配置技能](.agents/skills/configure-royaleharness/SKILL.md) 说明如何识别实例、选择端口、
+填写路径与账号、校准并验证闭环。是否自动发现技能取决于助手；不能自动加载时，直接让它阅读这些文件即可。
+这些文件提供操作指引，不会自行执行配置。
 
 ## 项目如何工作
 
@@ -62,18 +74,6 @@ flowchart LR
 
 准备 Windows、Python 3.12、启用 Root 和 ADB 的 MuMu，以及匹配上述指纹的游戏。
 FirstLight 推理代码、冻结目录数据和模型权重需单独准备，版本由 `upstream.lock.json` 固定。
-
-### 让 agent 协助配置
-
-在支持仓库指令的编程助手中打开项目，可以这样提出任务：
-
-> 请阅读 AGENTS.md，帮我把 RoyaleHarness 配置到我指定的 MuMu 实例。
-> 按配置技能发现环境、填写本地设置并验证运行；需要我进入对战时告诉我。
-
-[AGENTS.md](AGENTS.md) 是工作入口，
-[配置技能](.agents/skills/configure-royaleharness/SKILL.md) 说明如何识别实例、选择端口、
-填写路径与账号、校准并验证闭环。是否自动发现技能取决于助手；不能自动加载时，直接让它阅读这些文件即可。
-这些文件提供操作指引，不会自行执行配置。
 
 ### 手动配置
 
